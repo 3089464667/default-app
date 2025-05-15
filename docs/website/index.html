@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>文件默认大师 - 官方推广主页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="文件默认大师是一款专业的Windows文件扩展名默认程序设置与管理工具，支持批量设置、规则共享、文件夹图标、目录加密等功能。">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="animate__animated animate__fadeInDown">文件默认大师</h1>
+            <p class="subtitle animate__animated animate__fadeIn animate__delay-1s" id="typed-subtitle"></p>
+            <a href="fix_default_app.exe" class="btn-main animate__animated animate__fadeInUp animate__delay-2s" download>立即下载</a>
+        </div>
+        <canvas id="bg-canvas"></canvas>
+    </header>
+    <section class="features animate__animated animate__fadeInUp animate__delay-1s">
+        <div class="container">
+            <h2>主要功能亮点</h2>
+            <ul id="feature-list">
+                <li>🚀 一键批量设置多个扩展名的默认打开程序，彻底告别系统设置失效的烦恼</li>
+                <li>🧩 图形化规则编辑器，灵活增删改查、优先级排序，满足复杂场景需求</li>
+                <li>☁️ 规则空间社区，支持规则上传、下载、评分、标签、举报，行业经验共享</li>
+                <li>🔍 默认程序统计与搜索，系统文件关联一目了然</li>
+                <li>🎨 文件夹图标自定义、目录加密等实用扩展，数据安全与个性化兼得</li>
+                <li>⌨️ 全局快捷键随时唤起，操作高效流畅</li>
+                <li>🖥️ 兼容Windows 10/11，支持管理员权限自动提升</li>
+            </ul>
+        </div>
+    </section>
+    <section class="download animate__animated animate__fadeInUp animate__delay-2s" id="download">
+        <div class="container">
+            <h2>立即体验</h2>
+            <a href="fix_default_app.exe" class="btn-download pulse-btn" download>下载最新版（EXE）</a>
+            <p>
+                <a href="user.txt" download>详细用户手册</a> |
+                <a href="FAQ.txt" download>常见问题解答</a>
+            </p>
+        </div>
+    </section>
+    <section class="about animate__animated animate__fadeInUp animate__delay-3s">
+        <div class="container">
+            <h2>设计初衷与专业价值</h2>
+            <p>
+                文件默认大师填补了Windows生态下缺乏专业、开放的默认程序与文件扩展名规则共享平台的行业空白。通过“规则空间”社区，实现规则的云端共享、交流与复用，推动文件关联管理的标准化、自动化和知识沉淀，极大提升组织和个人的管理效率与专业水平。
+            </p>
+        </div>
+    </section>
+    <section class="contact animate__animated animate__fadeInUp animate__delay-4s">
+        <div class="container">
+            <h2>联系我</h2>
+            <ul>
+                <li>官方邮箱：3089464667@qq.com</li>
+                <li>官方QQ群：578713414</li>
+                <li>GitHub开源地址：<a href="https://github.com/3089464667/default-app" target="_blank">3089464667/default-app</a></li>
+            </ul>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <p>2025 文件默认大师. 保留所有权利.</p>
+        </div>
+    </footer>
+    <script>
+    // 动态打字效果
+    document.addEventListener("DOMContentLoaded", function() {
+        var typed = new Typed("#typed-subtitle", {
+            strings: [
+                "让文件关联管理前所未有的高效与自由",
+                "批量设置、规则共享、图标加密，一站式解决",
+                "你的Windows文件管理新体验"
+            ],
+            typeSpeed: 60,
+            backSpeed: 30,
+            backDelay: 1800,
+            startDelay: 400,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+    });
+
+    // 按钮呼吸动画
+    setInterval(function() {
+        var btn = document.querySelector('.pulse-btn');
+        if (btn) btn.classList.toggle('pulse');
+    }, 1200);
+
+    // 背景canvas粒子动画
+    (function() {
+        var canvas = document.getElementById('bg-canvas');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+        var w = window.innerWidth, h = 260;
+        canvas.width = w;
+        canvas.height = h;
+        var particles = [];
+        for (var i = 0; i < 48; i++) {
+            particles.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                r: Math.random() * 2 + 1,
+                dx: (Math.random() - 0.5) * 0.8,
+                dy: (Math.random() - 0.5) * 0.8,
+                c: "rgba(" + (180+Math.floor(Math.random()*60)) + "," + (200+Math.floor(Math.random()*40)) + ",255,0.7)"
+            });
+        }
+        function draw() {
+            ctx.clearRect(0, 0, w, h);
+            for (var i = 0; i < particles.length; i++) {
+                var p = particles[i];
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI*2, false);
+                ctx.fillStyle = p.c;
+                ctx.fill();
+                // 连接线
+                for (var j = i+1; j < particles.length; j++) {
+                    var q = particles[j];
+                    var dist = Math.sqrt((p.x-q.x)*(p.x-q.x)+(p.y-q.y));
+                    if (dist < 60) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(q.x, q.y);
+                        ctx.strokeStyle = "rgba(0,184,148,0.12)";
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+                p.x += p.dx;
+                p.y += p.dy;
+                if (p.x < 0 || p.x > w) p.dx *= -1;
+                if (p.y < 0 || p.y > h) p.dy *= -1;
+            }
+            requestAnimationFrame(draw);
+        }
+        draw();
+        window.addEventListener('resize', function() {
+            w = window.innerWidth;
+            canvas.width = w;
+        });
+    })();
+    </script>
+    <style>
+    /* 动态按钮呼吸动画 */
+    .pulse-btn.pulse {
+        box-shadow: 0 0 0 0 #00b894, 0 0 0 8px rgba(0,184,148,0.15);
+        transition: box-shadow 0.5s;
+    }
+    #bg-canvas {
+        position: absolute;
+        left: 0; top: 0; width: 100%; height: 260px; z-index: 0; pointer-events: none;
+        display: block;
+    }
+    header .container {
+        position: relative;
+        z-index: 2;
+    }
+    </style>
+</body>
+</html>

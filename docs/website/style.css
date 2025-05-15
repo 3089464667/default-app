@@ -1,0 +1,117 @@
+body {
+    margin: 0;
+    font-family: "微软雅黑", "Microsoft YaHei", Arial, sans-serif;
+    background: #f5f6fa;
+    color: #222;
+}
+header {
+    background: linear-gradient(90deg, #0984e3 0%, #00b894 100%);
+    color: #fff;
+    padding: 48px 0 36px 0;
+    text-align: center;
+}
+header .subtitle {
+    font-size: 1.3em;
+    margin: 12px 0 24px 0;
+}
+.btn-main {
+    display: inline-block;
+    background: #fdcb6e;
+    color: #222;
+    font-weight: bold;
+    padding: 14px 36px;
+    border-radius: 28px;
+    text-decoration: none;
+    font-size: 1.2em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: background 0.2s;
+}
+.btn-main:hover {
+    background: #ffeaa7;
+}
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 18px;
+}
+.features, .about, .contact, .download {
+    background: #fff;
+    margin: 32px 0;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    padding: 32px 0;
+}
+.features ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.features li {
+    font-size: 1.1em;
+    margin: 18px 0;
+    padding-left: 1.2em;
+    position: relative;
+}
+.features li:before {
+    content: "•";
+    color: #00b894;
+    position: absolute;
+    left: 0;
+    font-size: 1.2em;
+}
+.download {
+    text-align: center;
+}
+.btn-download {
+    display: inline-block;
+    background: #00b894;
+    color: #fff;
+    font-weight: bold;
+    padding: 12px 32px;
+    border-radius: 24px;
+    text-decoration: none;
+    font-size: 1.1em;
+    margin-bottom: 18px;
+    margin-top: 8px;
+    transition: background 0.2s;
+}
+.btn-download:hover {
+    background: #0984e3;
+}
+.about p {
+    font-size: 1.08em;
+    line-height: 1.8;
+}
+.contact ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.contact li {
+    margin: 10px 0;
+    font-size: 1.05em;
+}
+footer {
+    background: #222;
+    color: #fff;
+    text-align: center;
+    padding: 18px 0;
+    font-size: 0.98em;
+    margin-top: 36px;
+    border-radius: 0 0 12px 12px;
+}
+@media (max-width: 600px) {
+    .container {
+        padding: 0 6px;
+    }
+    header {
+        padding: 32px 0 18px 0;
+    }
+    .features, .about, .contact, .download {
+        padding: 18px 0;
+    }
+    .btn-main, .btn-download {
+        padding: 10px 18px;
+        font-size: 1em;
+    }
+}

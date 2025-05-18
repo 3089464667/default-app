@@ -1,6 +1,6 @@
 <p align="left">
-  <img src="image3.png" alt="Default App Master Icon" width="48" height="48" style="vertical-align:middle;margin-right:12px;border-radius:50%;">
-  <span style="font-size:2em;vertical-align:middle;object-fit:cover;"><b>文件默认大师</b></span>
+  <img src="image3.png" alt="Default App Master Icon" width="48" height="48" style="vertical-align:middle;margin-right:12px;border-radius:50%;object-fit:cover;">
+  <span style="font-size:2em;vertical-align:middle;"><b>文件默认大师</b></span>
 </p>
 
 

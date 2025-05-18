@@ -1,11 +1,14 @@
-# 设置默认程序工具
+<p align="left">
+  <img src="https://raw.githubusercontent.com/user-attachments/assets/3626c3fa-2750-47c3-ab4a-5b8bdb958981" alt="Default App Master Icon" width="48" style="vertical-align:middle;margin-right:12px;">
+  <span style="font-size:2em;vertical-align:middle;"><b>文件默认大师</b></span>
+</p>
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/user-attachments/assets/ai-sci-fi-icon.png" alt="Sci-Fi Default App Master Icon" width="120" style="border-radius: 18px; box-shadow: 0 4px 24px #00e6ff;">
 </p>
 
 <p align="center" style="font-size:18px;">
-  <b>文件默认大师</b>
+  <b>设置默认程序工具</b>
 </p>
 ![alt text](image.png)
 这是一个Windows工具，用于设置文件扩展名的默认打开程序。大家可能经常会遇到用windows指定默认的应用程序打开某种文件扩展名（比如.html用Edge打开，而不想用联想浏览器打开），但是经常的情况是改了以后当时有用，重启后就没有效果了。于是我开发了这样的工具fix_default_app.exe来快速的让大家选择某个文件扩展名需要打开的默认应用程序，并且电脑重启后仍有效。

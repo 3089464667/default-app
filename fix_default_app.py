@@ -17,6 +17,7 @@ from PIL import Image
 import shutil
 import ctypes
 import hashlib
+import glob
 def set_default_app_cmd(file_extension, app_path):
     """
     使用 Windows 命令行工具设置默认打开程序，兼容 Windows 10/11
@@ -541,6 +542,12 @@ def show_rule_detail_dialog(parent, rule_info, rule_content, on_apply_callback=N
     txt.config(state=tk.DISABLED)
     # 下载并应用按钮
     def do_apply():
+        # 新增：只应用本地能找到程序的规则
+        applied = apply_rules_with_smart_path(rule_content)
+        if applied == 0:
+            messagebox.showwarning("未应用", "未找到任何本地可用的程序，未应用任何规则。", parent=win)
+        else:
+            messagebox.showinfo("应用成功", f"已成功应用 {applied} 条本地可用规则。", parent=win)
         if on_apply_callback:
             on_apply_callback(rule_content)
         win.destroy()
@@ -552,8 +559,13 @@ def show_rule_community():
     global community_user_info
     win = tk.Toplevel()
     win.title("规则空间")
-    win.geometry("800x540")
+    win.geometry("800x560")
     win.configure(bg="#f5f6fa")
+
+    # ======= 顶部欢迎与统计区 =======
+    stats_frame = tk.Frame(win, bg="#f5f6fa")
+    stats_frame.pack(fill=tk.X, pady=(18, 8))
+
     # 自动登录
     if community_user_info["username"] and community_user_info["password"]:
         username = community_user_info["username"]
@@ -565,6 +577,51 @@ def show_rule_community():
             return
         community_user_info["username"] = username
         community_user_info["password"] = password
+
+    # ======= 精致统计卡片 =======
+    stat_card = tk.Frame(stats_frame, bg="#fff", bd=0, highlightbackground="#e0e0e0", highlightthickness=1)
+    stat_card.pack(anchor="w", padx=24, pady=(0, 0))
+
+    # 左侧图标
+    icon_label = tk.Label(stat_card, text="🗂️", font=("Segoe UI Emoji", 28), bg="#fff")
+    icon_label.grid(row=0, column=0, rowspan=2, padx=(22, 16), pady=18)
+
+    # 获取统计数据
+    rule_count = 0
+    user_count = 0
+    try:
+        resp = requests.get(f"{COMMUNITY_API_BASE}/stats", timeout=10)
+        if resp.status_code == 200:
+            data = resp.json()
+            rule_count = data.get("rule_count", 0)
+            user_count = data.get("user_count", 0)
+    except Exception:
+        pass
+
+    # 欢迎语
+    welcome_label = tk.Label(
+        stat_card,
+        text=f"欢迎回来，{username}",
+        font=("微软雅黑", 18, "bold"),
+        bg="#fff",
+        fg="#222"
+    )
+    welcome_label.grid(row=0, column=1, sticky="w", padx=(0, 0), pady=(18, 0))
+
+    # 统计数字
+    stat_font = ("微软雅黑", 15, "bold")
+    stat_val_font = ("微软雅黑", 22, "bold")
+    stat_fg = "#2176ff"
+    tk.Label(stat_card, text="空间规则总数", font=stat_font, bg="#fff", fg="#888").grid(row=1, column=1, sticky="w", padx=(0, 24), pady=(4, 18))
+    tk.Label(stat_card, text=f"{rule_count:,}", font=stat_val_font, bg="#fff", fg=stat_fg).grid(row=1, column=2, sticky="w", padx=(0, 36), pady=(4, 18))
+    tk.Label(stat_card, text="注册用户数", font=stat_font, bg="#fff", fg="#888").grid(row=1, column=3, sticky="w", padx=(0, 24), pady=(4, 18))
+    tk.Label(stat_card, text=f"{user_count:,}", font=stat_val_font, bg="#fff", fg=stat_fg).grid(row=1, column=4, sticky="w", padx=(0, 24), pady=(4, 18))
+
+    # 分割线
+    sep = tk.Frame(win, bg="#e0e0e0", height=2)
+    sep.pack(fill=tk.X, padx=24, pady=(2, 8))
+
+    # ...existing code for user_frame, upload_frame, filter_frame, browse_frame, etc...
     user_frame = tk.Frame(win, bg="#f5f6fa")
     user_frame.pack(side=tk.BOTTOM, fill=tk.X, pady=(0, 8))
     tk.Label(user_frame, text=f"当前用户：{username}", font=("微软雅黑", 11, "bold"), fg="#636e72", bg="#f5f6fa").pack(side=tk.LEFT, padx=18)
@@ -572,7 +629,6 @@ def show_rule_community():
         show_change_password_dialog(win, username)
     tk.Button(user_frame, text="修改密码", font=("微软雅黑", 10, "bold"), bg="#fdcb6e", fg="#2d3436", activebackground="#ffeaa7", relief="flat", bd=0, height=1, command=on_change_pwd).pack(side=tk.LEFT, padx=18)
     def on_logout():
-        # 清空登录信息并关闭空间窗口
         community_user_info["username"] = None
         community_user_info["password"] = None
         win.destroy()
@@ -812,18 +868,14 @@ def show_rule_community():
             if resp.status_code == 200:
                 imported = resp.json()
                 imported_rules = imported["rules"] if isinstance(imported, dict) and "rules" in imported else imported
-                # 可显示作者信息
                 author = imported.get("username", "")
                 rule_name = imported.get("name", "")
                 if isinstance(imported_rules, list):
-                    rules.clear()
-                    for r in imported_rules:
-                        if 'ext' in r and 'app' in r and 'priority' in r:
-                            rules.append(r)
-                    for i, r in enumerate(rules):
-                        r['priority'] = i+1
-                    apply_rules()
-                    messagebox.showinfo("导入成功", f"规则已成功导入并应用！\n作者：{author}\n规则名：{rule_name}")
+                    applied = apply_rules_with_smart_path(imported_rules)
+                    if applied == 0:
+                        messagebox.showwarning("未应用", "未找到任何本地可用的程序，未应用任何规则。")
+                    else:
+                        messagebox.showinfo("导入成功", f"规则已成功导入并应用 {applied} 条！\n作者：{author}\n规则名：{rule_name}")
                 else:
                     messagebox.showerror("导入失败", "规则格式不正确")
             else:
@@ -836,32 +888,55 @@ def show_rule_community():
             return
         item = tree.item(sel[0])
         rule_id = item["values"][0]
-        # 规则详情
         try:
             resp = requests.get(f"{COMMUNITY_API_BASE}/rule/{rule_id}", timeout=10)
             if resp.status_code == 200:
                 rule_detail = resp.json()
-                # rule_detail: {username, name, desc, rules, tags}
-                def apply_callback(rule_content):
-                    if isinstance(rule_content, list):
-                        rules.clear()
-                        for r in rule_content:
-                            if 'ext' in r and 'app' in r and 'priority' in r:
-                                rules.append(r)
-                        for i, r in enumerate(rules):
-                            r['priority'] = i+1
-                        apply_rules()
-                        messagebox.showinfo("导入成功", f"规则已成功导入并应用！\n作者：{rule_detail.get('username','')}\n规则名：{rule_detail.get('name','')}")
-                show_rule_detail_dialog(
-                    parent=tree,
-                    rule_info=rule_detail,
-                    rule_content=rule_detail.get("rules", []),
-                    on_apply_callback=apply_callback
-                )
+                # 弹窗显示规则详情和json内容
+                def show_json_content():
+                    win_json = tk.Toplevel(win)
+                    win_json.title("规则 JSON 文件内容")
+                    win_json.geometry("700x500")
+                    win_json.grab_set()
+                    txt = tk.Text(win_json, font=("Consolas", 11), wrap="none", bg="#f8f8f8")
+                    txt.pack(fill=tk.BOTH, expand=True)
+                    pretty = json.dumps(rule_detail.get("rules", []), ensure_ascii=False, indent=2)
+                    txt.insert(tk.END, pretty)
+                    txt.config(state=tk.DISABLED)
+                    tk.Button(win_json, text="关闭", font=("微软雅黑", 11), width=10, command=win_json.destroy).pack(pady=8)
+                    win_json.wait_window()
+                # 规则详情弹窗
+                detail_win = tk.Toplevel(win)
+                detail_win.title(f"规则详情 - {rule_detail.get('name', '')}")
+                detail_win.geometry("600x520")
+                detail_win.resizable(False, False)
+                detail_win.grab_set()
+                tk.Label(detail_win, text=f"规则名称：{rule_detail.get('name', '')}", font=("微软雅黑", 14, "bold")).pack(pady=(18, 4))
+                tk.Label(detail_win, text=f"作者：{rule_detail.get('username', '')}", font=("微软雅黑", 12)).pack()
+                tk.Label(detail_win, text=f"简介：{rule_detail.get('desc', '')}", font=("微软雅黑", 11), fg="#636e72").pack(pady=(0, 4))
+                tags = rule_detail.get("tags", [])
+                tags_str = ", ".join(tags) if tags else "无"
+                tk.Label(detail_win, text=f"标签：{tags_str}", font=("微软雅黑", 11), fg="#00b894").pack(pady=(0, 10))
+                frame = tk.Frame(detail_win)
+                frame.pack(fill=tk.BOTH, expand=True, padx=18, pady=8)
+                txt = tk.Text(frame, font=("Consolas", 11), height=14, wrap="none", bg="#f8f8f8")
+                txt.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+                scrollbar = tk.Scrollbar(frame, command=txt.yview)
+                txt.configure(yscrollcommand=scrollbar.set)
+                scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+                pretty = json.dumps(rule_detail.get("rules", []), ensure_ascii=False, indent=2)
+                txt.insert(tk.END, pretty)
+                txt.config(state=tk.DISABLED)
+                btn_frame = tk.Frame(detail_win)
+                btn_frame.pack(pady=12)
+                tk.Button(btn_frame, text="查看完整JSON内容", font=("微软雅黑", 11), width=18, command=show_json_content).pack(side=tk.LEFT, padx=8)
+                tk.Button(btn_frame, text="关闭", font=("微软雅黑", 11), width=10, command=detail_win.destroy).pack(side=tk.LEFT, padx=8)
+                detail_win.wait_window()
             else:
                 messagebox.showerror("加载失败", f"服务器返回: {resp.status_code}")
         except Exception as e:
             messagebox.showerror("加载失败", f"网络异常: {e}")
+
     tree.bind("<Double-1>", on_rule_double_click)
     # 举报
     def report_selected_rule():
@@ -1264,6 +1339,64 @@ def is_admin():
         return ctypes.windll.shell32.IsUserAnAdmin()
     except:
         return False
+def find_executable_in_path(exe_name):
+    """在系统PATH和常见目录中查找可执行文件，返回绝对路径或None"""
+    # 1. 系统PATH
+    for path in os.environ.get("PATH", "").split(os.pathsep):
+        exe_path = os.path.join(path, exe_name)
+        if os.path.isfile(exe_path):
+            return exe_path
+    # 2. 常见安装目录
+    common_dirs = [
+        os.environ.get("ProgramFiles", r"C:\Program Files"),
+        os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)"),
+        os.environ.get("USERPROFILE", r"C:\Users\Default"),
+        r"C:\Windows\System32",
+        r"C:\Windows",
+    ]
+    for base in common_dirs:
+        for root, dirs, files in os.walk(base):
+            if exe_name.lower() in [f.lower() for f in files]:
+                return os.path.join(root, exe_name)
+    # 3. 桌面、下载等
+    user_dirs = [
+        os.path.join(os.environ.get("USERPROFILE", ""), "Desktop"),
+        os.path.join(os.environ.get("USERPROFILE", ""), "Downloads"),
+    ]
+    for base in user_dirs:
+        for root, dirs, files in os.walk(base):
+            if exe_name.lower() in [f.lower() for f in files]:
+                return os.path.join(root, exe_name)
+    return None
+def smart_resolve_app_path(app_path):
+    """
+    根据规则中的app_path，自动在本地查找同名可执行文件，返回本地实际路径或None
+    """
+    if not app_path or not isinstance(app_path, str):
+        return None
+    exe_name = os.path.basename(app_path)
+    # 先判断原路径是否存在
+    if os.path.isfile(app_path):
+        return app_path
+    # 再查找同名exe
+    found = find_executable_in_path(exe_name)
+    return found
+def apply_rules_with_smart_path(rules_json):
+    """
+    只应用本地能找到程序的规则，自动替换为本地实际路径
+    """
+    applied_count = 0
+    for rule in sorted(rules_json, key=lambda x: x.get('priority', 0)):
+        ext = rule.get('ext')
+        app = rule.get('app')
+        if not ext or not app:
+            continue
+        local_app = smart_resolve_app_path(app)
+        if local_app:
+            set_default_app(ext, local_app)
+            rules.append({'ext': ext, 'app': local_app, 'priority': len(rules)+1})
+            applied_count += 1
+    return applied_count
 if __name__ == "__main__":
     if is_admin():
         threading.Thread(target=listen_hotkey, daemon=True).start()

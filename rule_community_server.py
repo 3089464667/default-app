@@ -290,5 +290,14 @@ def delete_rule():
         save_scores(scores_new)
         save_reports(reports)
     return jsonify({"msg": "删除成功"})
+@app.route("/stats", methods=["GET"])
+def stats():
+    """统计总规则数和注册总人数"""
+    rules = load_rules()
+    users = load_users()
+    return jsonify({
+        "rule_count": len(rules),
+        "user_count": len(users)
+    })
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=80, debug=False)

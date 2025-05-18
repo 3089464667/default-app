@@ -17,7 +17,6 @@ from PIL import Image
 import shutil
 import ctypes
 import hashlib
-import glob
 def set_default_app_cmd(file_extension, app_path):
     """
     使用 Windows 命令行工具设置默认打开程序，兼容 Windows 10/11

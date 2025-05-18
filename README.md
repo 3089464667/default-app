@@ -4,6 +4,10 @@
 </p>
 
 
+<p align="right">
+  <a href="README_en.md" style="font-size:18px;text-decoration:none;">English</a> | <b>中文</b>
+</p>
+
 ![alt text](image.png)
 这是一个Windows工具，用于设置文件扩展名的默认打开程序。大家可能经常会遇到用windows指定默认的应用程序打开某种文件扩展名（比如.html用Edge打开，而不想用联想浏览器打开），但是经常的情况是改了以后当时有用，重启后就没有效果了。于是我开发了这样的工具fix_default_app.exe来快速的让大家选择某个文件扩展名需要打开的默认应用程序，并且电脑重启后仍有效。
 

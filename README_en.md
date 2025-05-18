@@ -4,16 +4,13 @@
 File Default Master</b></span>
 </p>
 
+
 #  Tool for Setting Default Programs
 ![alt text](image.png)
 
 This is a Windows tool used to set the default opening program for file extensions. People often need to specify a default application in Windows to open a certain file extension (for example, using Edge to open .html files instead of Lenovo Browser). However, it is often the case that the change works temporarily but fails to take effect after a reboot. Therefore, I developed this tool, fix_default_app.exe, to help users quickly select the default application for a specific file extension, with the settings remaining effective after computer restart.
 
----
 
-<p align="right">
-  <a href="README_en.md" style="font-size:18px;text-decoration:none;">English</a> | <b>中文</b>
-</p>
 
 ## Overview of Main Functions
 

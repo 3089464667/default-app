@@ -1,3 +1,9 @@
+<p align="left">
+  <img src="image3.png" alt="Default App Master Icon" width="48" style="vertical-align:middle;margin-right:12px;border-radius:50%;">
+  <span style="font-size:2em;vertical-align:middle;"><b>
+File Default Master</b></span>
+</p>
+
 #  Tool for Setting Default Programs
 ![alt text](image.png)
 

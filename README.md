@@ -13,10 +13,6 @@
 
 ---
 
-<p align="right">
-  <a href="README_en.md" style="font-size:18px;text-decoration:none;">English</a> | <b>中文</b>
-</p>
-
 ## 主要功能概述
 
 文件默认大师是一款面向Windows平台的文件扩展名默认程序设置与管理工具，具备以下主要功能：

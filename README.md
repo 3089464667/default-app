@@ -1,5 +1,4 @@
-
-<img src="image3.png" alt="File Default Master" width="48" height="48" style="vertical-align:middle;margin-right:12px;border-radius:50%!important;object-fit:cover;display:block;">
+<img src="image3.png" alt="File Default Master" width="64" height="48" style="vertical-align:middle;margin-right:12px;border-radius:50% / 35%;object-fit:cover;display:block;">
 <span style="font-size:2em;vertical-align:middle;"><b>文件默认大师</b></span>
 
 

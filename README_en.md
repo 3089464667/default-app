@@ -1,6 +1,6 @@
 <p align="left">
-<img src="image3.png" alt="File Default Master" style="vertical-align:middle;margin-right:12px;border-radius:50%;object-fit:cover;">
-<span style="font-size:2em;vertical-align:middle;"><b>
+<img src="image3.png" alt="File Default Master" style="width:50px; height:auto; vertical-align:middle;border-radius:50%;">
+<span style="font-size:2em;vertical-align:top;"><b>
 File Default Master</b></span>
 </p>
 

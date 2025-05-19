@@ -1,6 +1,6 @@
 <p align="left">
 <img src="image3.png" alt="File Default Master" style="width:50px; height:auto; vertical-align:middle;border-radius:50%;">
-<span style="font-size:2em;vertical-align:middle;"><b>文件默认大师</b></span>
+<span style="font-size:2em;vertical-align:top;"><b>文件默认大师</b></span>
 </p>
 
 

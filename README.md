@@ -1,7 +1,7 @@
-<p align="left">
-  <img src="image3.png" alt="Default App Master Icon" width="48" height="48" style="vertical-align:middle;margin-right:12px;border-radius:50%;object-fit:cover;">
-  <span style="font-size:2em;vertical-align:middle;"><b>文件默认大师</b></span>
-</p>
+
+<img src="image3.png" alt="File Default Master" width="48" height="48" style="vertical-align:middle;margin-right:12px;border-radius:50%!important;object-fit:cover;display:block;">
+<span style="font-size:2em;vertical-align:middle;"><b>文件默认大师</b></span>
+
 
 
 <p align="right">

@@ -1,5 +1,5 @@
 <p align="left">
-<img src="image3.png" alt="File Default Master" width="64" height="48" style="vertical-align:middle;margin-right:12px;border-radius:50%;object-fit:cover;">
+<img src="image3.png" alt="File Default Master" style="vertical-align:middle;border-radius:50%;">
 <span style="font-size:2em;vertical-align:middle;"><b>文件默认大师</b></span>
 </p>
 

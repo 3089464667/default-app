@@ -1,5 +1,5 @@
 <p align="left">
-<img src="image3.png" alt="File Default Master" width="64" height="48" style="vertical-align:middle;margin-right:12px;border-radius:50%;object-fit:cover;">
+<img src="image3.png" alt="File Default Master" style="vertical-align:middle;margin-right:12px;border-radius:50%;object-fit:cover;">
 <span style="font-size:2em;vertical-align:middle;"><b>
 File Default Master</b></span>
 </p>

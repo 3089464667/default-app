@@ -1,8 +1,8 @@
-
-<img src="image3.png" alt="File Default Master" width="48" height="48" style="vertical-align:middle;margin-right:12px;border-radius:50%!important;object-fit:cover;display:block;">
+<p align="left">
+<img src="image3.png" alt="File Default Master" width="64" height="48" style="vertical-align:middle;margin-right:12px;border-radius:50%;object-fit:cover;">
 <span style="font-size:2em;vertical-align:middle;"><b>
 File Default Master</b></span>
-
+</p>
 
 <p align="right">
   <a href="README_en.md" style="font-size:18px;text-decoration:none;">English</a> | <a href="README.md" style="font-size:18px;text-decoration:none;">中文</a>
